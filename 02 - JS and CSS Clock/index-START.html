@@ -73,6 +73,10 @@
       const hands = Array.from(document.querySelector('.clock-face').children)
       hands.forEach((h) => (h.style.transform = `rotate(${initialDegs}deg)`))
 
+      const hourHand = document.querySelector('.hour-hand')
+      const minuteHand = document.querySelector('.min-hand')
+      const secondHand = document.querySelector('.second-hand')
+
       function handleSeconds() {
         const now = new Date()
         const hour = now.getHours()
@@ -80,15 +84,12 @@
         const second = now.getSeconds()
 
         const currentHourDegs = initialDegs + hour * hourDegs + minute * hourMinuteDegs
-        const hourHand = document.querySelector('.hour-hand')
         hourHand.style.transform = `rotate(${currentHourDegs}deg)`
 
         const currentMinuteDegs = initialDegs + minute * minuteDegs
-        const minuteHand = document.querySelector('.min-hand')
         minuteHand.style.transform = `rotate(${currentMinuteDegs}deg)`
 
         const currentSecDegs = initialDegs + second * secondDegs
-        const secondHand = document.querySelector('.second-hand')
         secondHand.style.transform = `rotate(${currentSecDegs}deg)`
 
         setTimeout(handleSeconds, 1000)
