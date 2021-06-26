@@ -70,15 +70,20 @@
         const pressedKey = findKey(keyCode)
         pressedKey && pressedKey.classList.add('playing')
         const audio = findAudio(keyCode)
-        audio && audio.play()
+        if (!audio) {
+          return
+        } else {
+          audio.currentTime = 0
+          audio.play()
+        }
       })
 
       window.addEventListener('keyup', function (e) {
         const keyCode = e.keyCode
         const pressedKey = findKey(keyCode)
         pressedKey && pressedKey.classList.remove('playing')
-        const audio = findAudio(keyCode)
-        audio && audio.play
+        /* const audio = findAudio(keyCode)
+        audio && audio.pause() */
       })
     </script>
   </body>
