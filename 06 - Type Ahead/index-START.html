@@ -32,12 +32,15 @@
         suggestions.innerHTML = ''
         const searchFor = e.target.value
         const filtered = cities.filter(
-          (c) => c.city.toLowerCase().includes(searchFor) || c.state.toLowerCase().includes(searchFor)
+          (c) =>
+            c.city.toLowerCase().includes(searchFor.toLowerCase()) ||
+            c.state.toLowerCase().includes(searchFor.toLowerCase())
         )
         filtered.forEach((c) => {
           const nameSpan = document.createElement('span')
           const spanInner = `${c.city}, ${c.state}`
-          nameSpan.innerHTML = spanInner.replace(searchFor, `<span class="hl">${searchFor}</span>`)
+          const regex = new RegExp(searchFor, 'gi')
+          nameSpan.innerHTML = spanInner.replace(regex, `<span class="hl">${searchFor}</span>`)
           const popSpan = document.createElement('span')
           popSpan.classList.add('population')
           popSpan.innerHTML = c.population
