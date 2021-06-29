@@ -1,22 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Type Ahead 👀</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <script>
+      const endpoint =
+        'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json'
 
-  <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
-    <ul class="suggestions">
-      <li>Filter for a city</li>
-      <li>or a state</li>
-    </ul>
-  </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+      // i don't like it
+      let cities = []
+      const suggestions = document.querySelector('.suggestions')
 
-</script>
-</body>
+      fetch(endpoint)
+        .then((response) => response.json())
+        .then((data) => {
+          cities = data
+        })
+
+      const searchBox = document.querySelector('.search')
+      searchBox.addEventListener('keyup', (e) => {
+        suggestions.innerHTML = ''
+        const searchFor = e.target.value
+        const filtered = cities.filter(
+          (c) => c.city.toLowerCase().includes(searchFor) || c.state.toLowerCase().includes(searchFor)
+        )
+        filtered.forEach((c) => {
+          const nameSpan = document.createElement('span')
+          const spanInner = `${c.city}, ${c.state}`
+          nameSpan.innerHTML = spanInner.replace(searchFor, `<span class="hl">${searchFor}</span>`)
+          const popSpan = document.createElement('span')
+          popSpan.classList.add('population')
+          popSpan.innerHTML = c.population
+          const li = document.createElement('li')
+          li.appendChild(nameSpan)
+          li.appendChild(popSpan)
+          // TODO construct the element
+          //li.innerHTML =
+          suggestions.appendChild(li)
+        })
+      })
+    </script>
+  </body>
 </html>
