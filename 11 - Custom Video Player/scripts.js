@@ -1,4 +1,6 @@
 const video = document.querySelector('.player__video')
+const player = document.querySelector('.player')
+const progress = player.querySelector('.progress')
 const playToggle = document.querySelector('.player__button')
 const volume = document.querySelector('.player__slider')
 const playbackRate = document.getElementsByName('playbackRate')[0]
@@ -33,9 +35,15 @@ function handleTimeUpdate(e) {
   document.documentElement.style.setProperty('--progress', `${percentage}%`)
 }
 
+function scrub(e) {
+  const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration
+  video.currentTime = scrubTime
+}
+
 playToggle.addEventListener('click', handleToggle)
 volume.addEventListener('input', handleVolume)
 playbackRate.addEventListener('input', handleSpeed)
 skipBack.addEventListener('click', () => skip(-10))
 skipFwd.addEventListener('click', () => skip(25))
 video.addEventListener('timeupdate', handleTimeUpdate)
+progress.addEventListener('click', scrub)
