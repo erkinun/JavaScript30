@@ -1,12 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Key Detection</title>
-  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
-</head>
-<body>
-<script>
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Key Detection</title>
+  </head>
+  <body>
+    <script>
+      const konamiCode = [
+        'ArrowUp',
+        'ArrowUp',
+        'ArrowDown',
+        'ArrowDown',
+        'ArrowLeft',
+        'ArrowRight',
+        'ArrowLeft',
+        'ArrowRight',
+        'b',
+        'a',
+      ]
+      const keysPressed = []
+
+      function areArraysSame(arr1, arr2) {
+        if (arr1.length !== arr2.length) {
+          return false
+        }
+
+        const { prev, i } = arr1.reduce(
+          ({ prev, index }, i) => {
+            return {
+              prev: prev && arr1[index] === arr2[index],
+              i: i++,
+            }
+          },
+          { prev: true, index: 0 }
+        )
+
+        return prev
+      }
+
+      window.addEventListener('keydown', (e) => {
+        keysPressed.push(e.key)
+      })
+
+      window.addEventListener('keyup', () => {
+        if (areArraysSame(keysPressed.slice(-10), konamiCode)) {
+          window.alert('KONAMIIII')
+        }
+      })
+    </script>
+  </body>
 </html>
