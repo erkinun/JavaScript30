@@ -91,7 +91,13 @@
         e.preventDefault()
       }
 
+      function handleList(e) {
+        const label = e.target
+        label.parentElement.children[0].checked = !label.parentElement.children[0].checked
+      }
+
       addItems.addEventListener('submit', handleForm)
+      itemsList.addEventListener('click', handleList)
     </script>
   </body>
 </html>
