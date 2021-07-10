@@ -62,15 +62,16 @@
 
       function updateTapas(tapas) {
         itemsList.innerHTML = ''
-        const items = tapas.forEach((t) => {
+        const items = tapas.forEach((t, i) => {
           const li = document.createElement('li')
           const checkbox = document.createElement('input')
           checkbox.type = 'checkbox'
-          checkbox.name = t
-          checkbox.value = t
+          checkbox.name = t.name
+          checkbox.checked = t.done
+          checkbox.dataset.index = i
           li.append(checkbox)
           const label = document.createElement('label')
-          label.innerText = t
+          label.innerText = t.name
           li.append(label)
           itemsList.appendChild(li)
         })
@@ -83,7 +84,7 @@
       function handleForm(e) {
         const tapa = e.target.elements[0].value
         const tapas = localStorage.getItem('tapas') ? JSON.parse(localStorage.getItem('tapas')) : []
-        const updated = [...tapas, tapa]
+        const updated = [...tapas, { name: tapa, done: false }]
         updateTapas(updated)
         console.log(updated)
         localStorage.setItem('tapas', JSON.stringify(updated))
@@ -93,7 +94,19 @@
 
       function handleList(e) {
         const label = e.target
-        label.parentElement.children[0].checked = !label.parentElement.children[0].checked
+        const checkbox = label.parentElement.children[0]
+        const state = !checkbox.checked
+        checkbox.checked = state
+        const index = checkbox.dataset.index
+        const tapas = localStorage.getItem('tapas') ? JSON.parse(localStorage.getItem('tapas')) : []
+        const updated = tapas.map((t, i) => {
+          if (i === Number(index)) {
+            return { ...t, done: state }
+          } else {
+            return t
+          }
+        })
+        localStorage.setItem('tapas', JSON.stringify(updated))
       }
 
       addItems.addEventListener('submit', handleForm)
