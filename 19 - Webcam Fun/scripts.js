@@ -8,7 +8,6 @@ function getVideo() {
   navigator.mediaDevices
     .getUserMedia({ video: true, audio: false })
     .then((stream) => {
-      console.log(stream)
       video.srcObject = stream
       video.play()
     })
@@ -32,6 +31,12 @@ function takePhoto() {
   snap.currentTime = 0
   snap.play()
   const data = canvas.toDataURL('image/jpeg')
+  const link = document.createElement('a')
+  link.href = data
+  link.setAttribute('download', 'handsome')
+  link.textContent = 'Download'
+  link.innerHTML = `<img src="${data} alt="Erkin" />`
+  strip.insertBefore(link, strip.firstChild)
 }
 
 getVideo()
