@@ -18,11 +18,9 @@
       recognition.start()
 
       recognition.onresult = function (e) {
-        console.log(e.results)
-        //recognition.start()
         words.innerText = Array.from(e.results)
           .map((rs) => rs[0].transcript)
-          .join('\n ')
+          .join('\n\n')
       }
     </script>
 
