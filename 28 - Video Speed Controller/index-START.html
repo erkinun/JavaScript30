@@ -1,20 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Video Speed Scrubber</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-  <div class="wrapper">
-    <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
-    <div class="speed">
-      <div class="speed-bar">1×</div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Video Speed Scrubber</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <video
+        class="flex"
+        width="765"
+        height="430"
+        src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4"
+        loop
+        controls
+      ></video>
+      <div class="speed">
+        <div class="speed-bar">1×</div>
+      </div>
     </div>
-  </div>
 
-<script>
-</script>
-</body>
+    <script>
+      const video = document.querySelector('video')
+      const speedBar = document.querySelector('.speed-bar')
+      const speed = document.querySelector('.speed')
+      const height = speed.offsetHeight
+
+      function adjustSpeed(e) {
+        const base = 0.4
+        const full = 3.6
+        const percentage = ((e.offsetY / height) * 100).toFixed(1)
+        const times = ((full * percentage) / 100 + base).toFixed(2)
+        speedBar.style.height = `${percentage}%`
+        speedBar.innerText = `${times}x`
+        video.playbackRate = parseFloat(times)
+      }
+      speed.addEventListener('mousemove', adjustSpeed)
+    </script>
+  </body>
 </html>
